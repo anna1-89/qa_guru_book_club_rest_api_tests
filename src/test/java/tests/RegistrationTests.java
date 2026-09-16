@@ -3,6 +3,7 @@ package tests;
 import models.pojo.RegistrationBodyPojoModel;
 import models.pojo.RegistrationResponsePojoModel;
 import net.datafaker.Faker;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -13,12 +14,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegistrationTests {
 
-    @Test
-    public void successfulRegistrationTest() {
-        //https://book-club.qa.guru/api/v1/users/register/
+    String username;
+    String password;
+
+    @BeforeEach
+    public void prepareTestData() {
         Faker faker = new Faker();
-        String username = faker.name().firstName();
-        String password = faker.name().firstName();
+        username = faker.name().firstName();
+        password = faker.name().firstName();
+    }
+
+    @Test
+    public void successfulRegistrationTest_bad_practice() {
+        //https://book-club.qa.guru/api/v1/users/register/
 
         String data = "";
 
@@ -40,9 +48,7 @@ public class RegistrationTests {
     @Test
     public void successfulRegistrationTest_with_pojo() {
         //https://book-club.qa.guru/api/v1/users/register/
-        Faker faker = new Faker();
-        String username = faker.name().firstName();
-        String password = faker.name().firstName();
+
 
         RegistrationBodyPojoModel data = new RegistrationBodyPojoModel();
         data.setUsername(username);
@@ -73,9 +79,7 @@ public class RegistrationTests {
     @Test
     public void existingUser400Test() {
         //https://book-club.qa.guru/api/v1/users/register/
-        Faker faker = new Faker();
-        String username = faker.name().firstName();
-        String password = faker.name().firstName();
+
 
         String data = "";
 
@@ -109,9 +113,7 @@ public class RegistrationTests {
     @Test
     public void invalidUsername400Test() {
         //https://book-club.qa.guru/api/v1/users/register/
-        Faker faker = new Faker();
-        String username = faker.name().fullName();
-        String password = faker.name().firstName();
+
 
         String data = "";
 
@@ -133,9 +135,7 @@ public class RegistrationTests {
     @Test
     public void negativeRegistration500Test() {
         //https://book-club.qa.guru/api/v1/users/register/
-        Faker faker = new Faker();
-        String username = faker.name().fullName();
-        String password = faker.name().firstName();
+
 
         String data = "";
 
@@ -153,9 +153,7 @@ public class RegistrationTests {
     @Test
     public void nunsupportedMediaType415Test() {
         //https://book-club.qa.guru/api/v1/users/register/
-        Faker faker = new Faker();
-        String username = faker.name().fullName();
-        String password = faker.name().firstName();
+
 
         String data = "";
 
