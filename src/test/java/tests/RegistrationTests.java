@@ -1,5 +1,7 @@
 package tests;
 
+import models.lombok.RegistrationBodyLombokModel;
+import models.lombok.RegistrationResponseLombokModel;
 import models.pojo.RegistrationBodyPojoModel;
 import models.pojo.RegistrationResponsePojoModel;
 import net.datafaker.Faker;
@@ -72,6 +74,37 @@ public class RegistrationTests {
                 .as(RegistrationResponsePojoModel.class);
 
                 assertEquals(username, registrationResponse.getUsername());
+
+
+    }
+
+    @Test
+    public void successfulRegistrationTest_with_lombok() {
+        //https://book-club.qa.guru/api/v1/users/register/
+
+
+        RegistrationBodyLombokModel data = new RegistrationBodyLombokModel();
+        data.setUsername(username);
+        data.setPassword(password);
+
+
+//        With constructor
+//        RegistrationBodyLombokModel data = new RegistrationBodyLombokModel(username, password);
+
+        RegistrationResponseLombokModel registrationResponse = given()
+                .log().all()
+                .contentType(JSON)
+//                .header("content-type", ContentType.JSON)
+                .body(data)
+                .when()
+                .post("https://book-club.qa.guru/api/v1/users/register/")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract()
+                .as(RegistrationResponseLombokModel.class);
+
+        assertEquals(username, registrationResponse.getUsername());
 
 
     }
