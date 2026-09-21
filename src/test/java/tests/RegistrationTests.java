@@ -4,6 +4,9 @@ import models.lombok.RegistrationBodyLombokModel;
 import models.lombok.RegistrationResponseLombokModel;
 import models.pojo.RegistrationBodyPojoModel;
 import models.pojo.RegistrationResponsePojoModel;
+import models.records.ExistingUser400ResponseRecordsModel;
+import models.records.RegistrationResponseRecordsModel;
+import models.records.RegistrationBodyRecordsModel;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,11 +113,32 @@ public class RegistrationTests {
     }
 
     @Test
-    public void existingUser400Test() {
+    public void successfulRegistrationTest_with_records() {
         //https://book-club.qa.guru/api/v1/users/register/
 
+        RegistrationBodyRecordsModel data = new RegistrationBodyRecordsModel(username, password);
 
-        String data = "";
+        RegistrationResponseRecordsModel registrationResponse = given()
+                .log().all()
+                .contentType(JSON)
+//                .header("content-type", ContentType.JSON)
+                .body(data)
+                .when()
+                .post("https://book-club.qa.guru/api/v1/users/register/")
+                .then()
+                .log().all()
+                .statusCode(201)
+                .extract()
+                .as(RegistrationResponseRecordsModel.class);
+
+        assertEquals(username, registrationResponse.username());
+
+
+    }
+
+    @Test
+    public void existingUser400Test() {
+        RegistrationBodyRecordsModel data = new RegistrationBodyRecordsModel(username, password);
 
         given()
                 .log().all()
@@ -129,7 +153,7 @@ public class RegistrationTests {
                 .body("username", is(username))
                 .body("id", notNullValue());
 
-        given()
+        ExistingUser400ResponseRecordsModel response = given()
                 .log().all()
                 .contentType(JSON)
 //                .header("content-type", ContentType.JSON)
@@ -139,7 +163,10 @@ public class RegistrationTests {
                 .then()
                 .log().all()
                 .statusCode(400)
-                .body("username[0]", is("A user with that username is already exists."));
+                .extract()
+                .as(ExistingUser400ResponseRecordsModel.class);
+                String expectedError = "A user with that username is already exists.";
+                assertEquals(expectedError, response.username().get(0));
 
     }
 
