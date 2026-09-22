@@ -1,12 +1,12 @@
 package tests;
 
-import models.lombok.RegistrationBodyLombokModel;
-import models.lombok.RegistrationResponseLombokModel;
-import models.pojo.RegistrationBodyPojoModel;
-import models.pojo.RegistrationResponsePojoModel;
-import models.records.ExistingUser400ResponseRecordsModel;
-import models.records.RegistrationResponseRecordsModel;
-import models.records.RegistrationBodyRecordsModel;
+import models.registration.lombock.RegistrationBodyLombokModel;
+import models.registration.lombock.RegistrationResponseLombokModel;
+import models.registration.pojo.RegistrationBodyPojoModel;
+import models.registration.pojo.RegistrationResponsePojoModel;
+import models.registration.records.ExistingUserResponseRecordsModel;
+import models.registration.records.RegistrationResponseRecordsModel;
+import models.registration.records.RegistrationBodyRecordsModel;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -153,7 +153,7 @@ public class RegistrationTests {
                 .body("username", is(username))
                 .body("id", notNullValue());
 
-        ExistingUser400ResponseRecordsModel response = given()
+        ExistingUserResponseRecordsModel response = given()
                 .log().all()
                 .contentType(JSON)
 //                .header("content-type", ContentType.JSON)
@@ -164,7 +164,7 @@ public class RegistrationTests {
                 .log().all()
                 .statusCode(400)
                 .extract()
-                .as(ExistingUser400ResponseRecordsModel.class);
+                .as(ExistingUserResponseRecordsModel.class);
                 String expectedError = "A user with that username is already exists.";
                 assertEquals(expectedError, response.username().get(0));
 
