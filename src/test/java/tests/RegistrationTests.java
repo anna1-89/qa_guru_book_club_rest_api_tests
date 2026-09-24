@@ -1,15 +1,15 @@
 package tests;
 
-import models.registration.ExistingUserResponseModel;
-import models.registration.RegistrationBodyModel;
-import models.registration.SuccessfulRegistrationResponseModel;
+import models.registration.*;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static specs.BaseSpec.baseRequestSpec;
 import static specs.registration.RegistrationSpec.*;
+import static tests.TestData.*;
 
 public class RegistrationTests extends TestBase {
 
@@ -27,7 +27,7 @@ public class RegistrationTests extends TestBase {
     public void successfulRegistrationTest() {
         RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
 
-        SuccessfulRegistrationResponseModel registrationResponse = given(registrationRequestSpec)
+        SuccessfulRegistrationResponseModel registrationResponse = given(baseRequestSpec)
                 .body(registrationData)
                 .when()
                 .post("users/register/")
@@ -41,16 +41,14 @@ public class RegistrationTests extends TestBase {
         assertThat(registrationResponse.lastName()).isEqualTo("");
         assertThat(registrationResponse.email()).isEqualTo("");
 
-        String ipAddrRegexp = "^((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.){3}"
-                + "(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$";
-        assertThat(registrationResponse.remoteAddr()).matches(ipAddrRegexp);
+        assertThat(registrationResponse.remoteAddr()).matches(REGISTRATION_IP_REGEXP);
     }
 
     @Test
     public void existingUserWrongRegistrationTest() {
         RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
 
-        SuccessfulRegistrationResponseModel firstRegistrationResponse = given(registrationRequestSpec)
+        SuccessfulRegistrationResponseModel firstRegistrationResponse = given(baseRequestSpec)
                 .body(registrationData)
                 .when()
                 .post("users/register/")
@@ -60,7 +58,7 @@ public class RegistrationTests extends TestBase {
 
         assertThat(firstRegistrationResponse.username()).isEqualTo(username);
 
-        ExistingUserResponseModel secondRegistrationResponse = given(registrationRequestSpec)
+        ExistingUserResponseModel secondRegistrationResponse = given(baseRequestSpec)
                 .body(registrationData)
                 .when()
                 .post("users/register/")
@@ -68,12 +66,63 @@ public class RegistrationTests extends TestBase {
                 .spec(existingUserRegistrationResponseSpec)
                 .extract().as(ExistingUserResponseModel.class);
 
-        String expectedError = "A user with that username already exists.";
+        String expectedError = REGISTRATION_EXISTING_USER_ERROR;
         String actualError = secondRegistrationResponse.username().get(0);
         assertThat(actualError).isEqualTo(expectedError);
     }
 
-    //todo add more negative tests
+        @Test
+        public void emptyUserWrongRegistrationTest() {
+            RegistrationBodyModel registrationData = new RegistrationBodyModel("", password);
 
+            EmptyUsernameResponseModel registrationResponse = given(baseRequestSpec)
+                    .body(registrationData)
+                    .when()
+                    .post("users/register/")
+                    .then()
+                    .spec(emptyUserRegistrationResponseSpec)
+                    .extract().as(EmptyUsernameResponseModel.class);
+
+            String expectedError = REGISTRATION_EMPTY_FIELD_ERROR;
+            String actualError = registrationResponse.username().get(0);
+            assertThat(actualError).isEqualTo(expectedError);
+    }
+
+    @Test
+    public void emptyPasswordWrongRegistrationTest() {
+        RegistrationBodyModel registrationData = new RegistrationBodyModel(username, "");
+
+        EmptyPasswordResponseModel registrationResponse = given(baseRequestSpec)
+                .body(registrationData)
+                .when()
+                .post("users/register/")
+                .then()
+                .spec(emptyPasswordRegistrationResponseSpec)
+                .extract().as(EmptyPasswordResponseModel.class);
+
+        String expectedError = REGISTRATION_EMPTY_FIELD_ERROR;
+        String actualError = registrationResponse.password().get(0);
+        assertThat(actualError).isEqualTo(expectedError);
+    }
+
+    @Test
+    public void emptyUserAndPasswordWrongRegistrationTest() {
+        RegistrationBodyModel registrationData = new RegistrationBodyModel("", "");
+
+        EmptyUserAndPasswordResponseModel registrationResponse = given(baseRequestSpec)
+                .body(registrationData)
+                .when()
+                .post("users/register/")
+                .then()
+                .spec(emptyUserAndPasswordRegistrationResponseSpec)
+                .extract().as(EmptyUserAndPasswordResponseModel.class);
+
+        String expectedUsernameError = REGISTRATION_EMPTY_FIELD_ERROR;
+        String expectedPasswordError = REGISTRATION_EMPTY_FIELD_ERROR;
+        String actualUsernameError = registrationResponse.username().get(0);
+        String actualPasswordError = registrationResponse.password().get(0);
+        assertThat(actualUsernameError).isEqualTo(expectedUsernameError);
+        assertThat(actualPasswordError).isEqualTo(expectedPasswordError);
+    }
 
 }

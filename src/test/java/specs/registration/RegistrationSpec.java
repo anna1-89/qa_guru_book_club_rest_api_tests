@@ -11,8 +11,6 @@ import static specs.BaseSpec.baseRequestSpec;
 
 public class RegistrationSpec {
 
-    public static RequestSpecification registrationRequestSpec = baseRequestSpec;
-
     public static ResponseSpecification successfulRegistrationResponseSpec = new ResponseSpecBuilder()
             .log(ALL)
             .expectStatusCode(201)
@@ -29,5 +27,30 @@ public class RegistrationSpec {
             .expectBody(matchesJsonSchemaInClasspath(
                     "schemas/registration/existing_user_registration_response_schema.json"))
             .expectBody("username", notNullValue())
+            .build();
+
+    public static ResponseSpecification emptyUserRegistrationResponseSpec = new ResponseSpecBuilder()
+            .log(ALL)
+            .expectStatusCode(400)
+            .expectBody(matchesJsonSchemaInClasspath(
+                    "schemas/registration/empty_user_registration_response_schema.json"))
+            .expectBody("username", notNullValue())
+            .build();
+
+    public static ResponseSpecification emptyPasswordRegistrationResponseSpec = new ResponseSpecBuilder()
+            .log(ALL)
+            .expectStatusCode(400)
+            .expectBody(matchesJsonSchemaInClasspath(
+                    "schemas/registration/empty_password_registration_response_schema.json"))
+            .expectBody("password", notNullValue())
+            .build();
+
+    public static ResponseSpecification emptyUserAndPasswordRegistrationResponseSpec = new ResponseSpecBuilder()
+            .log(ALL)
+            .expectStatusCode(400)
+            .expectBody(matchesJsonSchemaInClasspath(
+                    "schemas/registration/empty_user_password_registration_response_schema.json"))
+            .expectBody("username", notNullValue())
+            .expectBody("password", notNullValue())
             .build();
 }

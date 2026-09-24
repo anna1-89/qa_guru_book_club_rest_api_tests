@@ -7,21 +7,19 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
-import static specs.login.LoginSpec.loginRequestSpec;
+import static specs.BaseSpec.baseRequestSpec;
 import static specs.login.LoginSpec.successfulLoginResponseSpec;
-import static specs.logout.LogoutSpec.logoutRequestSpec;
 import static specs.logout.LogoutSpec.successfulLogoutResponseSpec;
+import static tests.TestData.LOGIN_PASSWORD;
+import static tests.TestData.LOGIN_USERNAME;
 
 public class LogoutTests extends TestBase {
 
-    String username = "qaguru";
-    String password = "qaguru123";
-
     @Test
     public void successfulLogoutTest() {
-        LoginBodyModel loginData = new LoginBodyModel(username, password);
+        LoginBodyModel loginData = new LoginBodyModel(LOGIN_USERNAME, LOGIN_PASSWORD);
 
-        String refreshToken = given(loginRequestSpec)
+        String refreshToken = given(baseRequestSpec)
                 .body(loginData)
                 .when()
                 .post("/auth/token/")
@@ -33,7 +31,7 @@ public class LogoutTests extends TestBase {
         //String logoutData = "{\"refresh\": \"" + refreshToken + "\"}";
         LogoutBodyModel logoutData = new LogoutBodyModel(refreshToken);
 
-        given(logoutRequestSpec)
+        given(baseRequestSpec)
                 .body(logoutData)
                 .when()
                 .post("/auth/logout/")
