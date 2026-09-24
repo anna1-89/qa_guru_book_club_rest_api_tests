@@ -3,6 +3,9 @@ package tests;
 import models.login.LoginBodyModel;
 import models.login.SuccessfulLoginResponseModel;
 import models.login.WrongCredentialsLoginResponseModel;
+import models.login.EmptyPasswordResponseModel;
+import models.login.EmptyUserAndPasswordResponseModel;
+import models.login.EmptyUsernameResponseModel;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -34,7 +37,7 @@ public class LoginTests extends TestBase {
     }
 
     @Test
-    public void wrongCredentialsLoginTest() {
+    public void wrongCredentialsPasswordLoginTest() {
         LoginBodyModel loginData = new LoginBodyModel(LOGIN_USERNAME, LOGIN_WRONG_PASSWORD);
 
         WrongCredentialsLoginResponseModel loginResponse = given(baseRequestSpec)
@@ -49,6 +52,78 @@ public class LoginTests extends TestBase {
         String actualDetailError = loginResponse.detail();
         assertThat(actualDetailError).isEqualTo(expectedDetailError);
     }
+
+    @Test
+    public void wrongCredentialUsernamesLoginTest() {
+        LoginBodyModel loginData = new LoginBodyModel(LOGIN_WRONG_USERNAME, LOGIN_PASSWORD);
+
+        WrongCredentialsLoginResponseModel loginResponse = given(baseRequestSpec)
+                .body(loginData)
+                .when()
+                .post("/auth/token/")
+                .then()
+                .spec(wrongCredentialsLoginResponseSpec)
+                .extract().as(WrongCredentialsLoginResponseModel.class);
+
+        String expectedDetailError = LOGIN_WRONG_CREDENTIALS_ERROR;
+        String actualDetailError = loginResponse.detail();
+        assertThat(actualDetailError).isEqualTo(expectedDetailError);
+    }
+
+    @Test
+    public void emptyUserRegistrationTest() {
+        LoginBodyModel loginData = new LoginBodyModel("", LOGIN_PASSWORD);
+
+        EmptyUsernameResponseModel loginResponse = given(baseRequestSpec)
+                .body(loginData)
+                .when()
+                .post("/auth/token/")
+                .then()
+                .spec(emptyUserLoginResponseSpec)
+                .extract().as(EmptyUsernameResponseModel.class);
+
+        String expectedError = LOGIN_EMPTY_FIELD_ERROR;
+        String actualError = loginResponse.username().get(0);
+        assertThat(actualError).isEqualTo(expectedError);
+    }
+
+    @Test
+    public void emptyPasswordRegistrationTest() {
+        LoginBodyModel loginData = new LoginBodyModel(LOGIN_WRONG_USERNAME, "");
+
+        EmptyPasswordResponseModel login = given(baseRequestSpec)
+                .body(loginData)
+                .when()
+                .post("/auth/token/")
+                .then()
+                .spec(emptyPasswordLoginResponseSpec)
+                .extract().as(EmptyPasswordResponseModel.class);
+
+        String expectedError = LOGIN_EMPTY_FIELD_ERROR;
+        String actualError = login.password().get(0);
+        assertThat(actualError).isEqualTo(expectedError);
+    }
+
+    @Test
+    public void emptyUserAndPasswordRegistrationTest() {
+        LoginBodyModel loginData = new LoginBodyModel("", "");
+
+        EmptyUserAndPasswordResponseModel loginResponse = given(baseRequestSpec)
+                .body(loginData)
+                .when()
+                .post("/auth/token/")
+                .then()
+                .spec(emptyUserAndPasswordLoginResponseSpec)
+                .extract().as(EmptyUserAndPasswordResponseModel.class);
+
+        String expectedUsernameError = LOGIN_EMPTY_FIELD_ERROR;
+        String expectedPasswordError = LOGIN_EMPTY_FIELD_ERROR;
+        String actualUsernameError = loginResponse.username().get(0);
+        String actualPasswordError = loginResponse.password().get(0);
+        assertThat(actualUsernameError).isEqualTo(expectedUsernameError);
+        assertThat(actualPasswordError).isEqualTo(expectedPasswordError);
+    }
+
 
     //---------------------------------------ТЕСТЫ ДО ОПТИМИЗАЦИИ--------------------------------------------
 //    @Test
