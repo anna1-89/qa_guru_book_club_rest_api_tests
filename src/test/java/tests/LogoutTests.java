@@ -2,12 +2,15 @@ package tests;
 
 import models.login.LoginBodyModel;
 import models.login.SuccessfulLoginResponseModel;
+import models.logout.LogoutBodyModel;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static specs.login.LoginSpec.loginRequestSpec;
 import static specs.login.LoginSpec.successfulLoginResponseSpec;
+import static specs.logout.LogoutSpec.logoutRequestSpec;
+import static specs.logout.LogoutSpec.successfulLogoutResponseSpec;
 
 public class LogoutTests extends TestBase {
 
@@ -27,19 +30,15 @@ public class LogoutTests extends TestBase {
                 .extract().path("refresh");
 
         //todo move to models and specs
-        String logoutData = "{\"refresh\": \"" + refreshToken + "\"}";
+        //String logoutData = "{\"refresh\": \"" + refreshToken + "\"}";
+        LogoutBodyModel logoutData = new LogoutBodyModel(refreshToken);
 
-        given()
-                .log().all()
-                .contentType(JSON)
+        given(logoutRequestSpec)
                 .body(logoutData)
-//                .formParam("refresh", refreshToken)
-                .basePath("/api/v1")
                 .when()
                 .post("/auth/logout/")
                 .then()
-                .log().all()
-                .statusCode(200);
+                .spec(successfulLogoutResponseSpec);
 
         //todo check logoutResponse is empty
 
