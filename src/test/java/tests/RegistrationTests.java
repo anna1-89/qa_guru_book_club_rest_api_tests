@@ -97,5 +97,7 @@ public class RegistrationTests extends TestBase {
         assertThat(actualError).isEqualTo(expectedError);
     }
 
+    //todo add more negative tests
+
 
 }
