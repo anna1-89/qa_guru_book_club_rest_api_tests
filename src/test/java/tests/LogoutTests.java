@@ -7,6 +7,7 @@ import models.logout.LogoutBodyModel;
 import models.logout.SuccessfulLogoutResponseModel;
 import org.junit.jupiter.api.Test;
 
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static specs.BaseSpec.baseRequestSpec;
@@ -19,22 +20,27 @@ public class LogoutTests extends TestBase {
     @Test
     public void successfulLogoutTest() {
         LoginBodyModel loginData = new LoginBodyModel(LOGIN_USERNAME, LOGIN_PASSWORD);
-        String refreshToken = given(baseRequestSpec)
-                .body(loginData)
-                .when()
-                .post("/auth/token/")
-                .then()
-                .spec(successfulLoginResponseSpec)
-                .extract().path("refresh");
 
-        LogoutBodyModel logoutData = new LogoutBodyModel(refreshToken);
-        SuccessfulLogoutResponseModel logoutResponse = given(baseRequestSpec)
-                .body(logoutData)
-                .when()
-                .post("/auth/logout/")
-                .then()
-                .spec(successfulLogoutResponseSpec)
-                .extract().as(SuccessfulLogoutResponseModel.class);
+        String refreshToken = step("Авторизация и получение токена", () ->
+            given(baseRequestSpec)
+                    .body(loginData)
+                    .when()
+                    .post("/auth/token/")
+                    .then()
+                    .spec(successfulLoginResponseSpec)
+                    .extract().path("refresh"));
+
+        step("Отправка запроса logout с refresh-токеном и проверка ответа (200)", () -> {
+            LogoutBodyModel logoutData = new LogoutBodyModel(refreshToken);
+
+            SuccessfulLogoutResponseModel logoutResponse = given(baseRequestSpec)
+                    .body(logoutData)
+                    .when()
+                    .post("/auth/logout/")
+                    .then()
+                    .spec(successfulLogoutResponseSpec)
+                    .extract().as(SuccessfulLogoutResponseModel.class);
+        });
     }
 
     @Test
