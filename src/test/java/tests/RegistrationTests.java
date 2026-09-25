@@ -54,7 +54,7 @@ public class RegistrationTests extends TestBase {
     public void existingUserWrongRegistrationTest() {
         RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
 
-        step("Отправка запроса registration с корректными данными и проверка ответа (201)", () -> {
+        step("Отправка запроса registration с корректными данными", () -> {
                     SuccessfulRegistrationResponseModel firstRegistrationResponse = given(baseRequestSpec)
                             .body(registrationData)
                             .when()
