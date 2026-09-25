@@ -30,7 +30,7 @@ public class RegistrationTests extends TestBase {
         SuccessfulRegistrationResponseModel registrationResponse = given(baseRequestSpec)
                 .body(registrationData)
                 .when()
-                .post("users/register/")
+                .post("/users/register/")
                 .then()
                 .spec(successfulRegistrationResponseSpec)
                 .extract().as(SuccessfulRegistrationResponseModel.class);
@@ -51,7 +51,7 @@ public class RegistrationTests extends TestBase {
         SuccessfulRegistrationResponseModel firstRegistrationResponse = given(baseRequestSpec)
                 .body(registrationData)
                 .when()
-                .post("users/register/")
+                .post("/users/register/")
                 .then()
                 .spec(successfulRegistrationResponseSpec)
                 .extract().as(SuccessfulRegistrationResponseModel.class);
@@ -61,7 +61,7 @@ public class RegistrationTests extends TestBase {
         ExistingUserResponseModel secondRegistrationResponse = given(baseRequestSpec)
                 .body(registrationData)
                 .when()
-                .post("users/register/")
+                .post("/users/register/")
                 .then()
                 .spec(existingUserRegistrationResponseSpec)
                 .extract().as(ExistingUserResponseModel.class);
@@ -78,7 +78,7 @@ public class RegistrationTests extends TestBase {
             EmptyUsernameResponseModel registrationResponse = given(baseRequestSpec)
                     .body(registrationData)
                     .when()
-                    .post("users/register/")
+                    .post("/users/register/")
                     .then()
                     .spec(emptyUserRegistrationResponseSpec)
                     .extract().as(EmptyUsernameResponseModel.class);
@@ -95,7 +95,7 @@ public class RegistrationTests extends TestBase {
         EmptyPasswordResponseModel registrationResponse = given(baseRequestSpec)
                 .body(registrationData)
                 .when()
-                .post("users/register/")
+                .post("/users/register/")
                 .then()
                 .spec(emptyPasswordRegistrationResponseSpec)
                 .extract().as(EmptyPasswordResponseModel.class);
@@ -112,7 +112,7 @@ public class RegistrationTests extends TestBase {
         EmptyUserAndPasswordResponseModel registrationResponse = given(baseRequestSpec)
                 .body(registrationData)
                 .when()
-                .post("users/register/")
+                .post("/users/register/")
                 .then()
                 .spec(emptyUserAndPasswordRegistrationResponseSpec)
                 .extract().as(EmptyUserAndPasswordResponseModel.class);
