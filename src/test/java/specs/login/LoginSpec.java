@@ -24,7 +24,7 @@ public class LoginSpec {
             .expectBody("detail", notNullValue())
             .build();
 
-    public static ResponseSpecification emptyUserLoginResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification emptyUsernameLoginResponseSpec = new ResponseSpecBuilder()
             .log(ALL)
             .expectStatusCode(400)
             .expectBody(matchesJsonSchemaInClasspath(
@@ -40,7 +40,7 @@ public class LoginSpec {
             .expectBody("password", notNullValue())
             .build();
 
-    public static ResponseSpecification emptyUserAndPasswordLoginResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification emptyUsernameAndPasswordLoginResponseSpec = new ResponseSpecBuilder()
             .log(ALL)
             .expectStatusCode(400)
             .expectBody(matchesJsonSchemaInClasspath(
