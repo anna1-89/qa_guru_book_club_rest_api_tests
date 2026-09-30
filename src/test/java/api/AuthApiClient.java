@@ -1,8 +1,6 @@
 package api;
 
 import io.qameta.allure.Step;
-import io.restassured.response.Response;
-import io.restassured.specification.ResponseSpecification;
 import models.login.*;
 import models.logout.EmptyTokenLogoutResponseModel;
 import models.logout.InvalidTokenLogoutResponseModel;
@@ -16,7 +14,7 @@ import static specs.logout.LogoutSpec.*;
 
 public class AuthApiClient {
 
-    @Step("Отправка запроса на авторизацию /auth/token/ с корректными данными")
+    @Step("[API] Отправка запроса на авторизацию /auth/token/ с корректными данными")
     public SuccessfulLoginResponseModel login(LoginBodyModel loginBody) {
         return given(baseRequestSpec)
                 .body(loginBody)
@@ -28,7 +26,7 @@ public class AuthApiClient {
                 .as(SuccessfulLoginResponseModel.class);
     }
 
-    @Step("Отправка запроса на авторизацию /auth/token/ и получение refresh токена")
+    @Step("[API] Отправка запроса на авторизацию /auth/token/ и получение refresh токена")
     public String loginAndGetRefreshToken(LoginBodyModel loginBody) {
         return given(baseRequestSpec)
                 .body(loginBody)
@@ -40,7 +38,7 @@ public class AuthApiClient {
                 .path("refresh");
     }
 
-    @Step("Отправка запроса на авторизацию /auth/token/ и получение access-токена")
+    @Step("[API] Отправка запроса на авторизацию /auth/token/ и получение access-токена")
     public String loginAndGetAccessToken(LoginBodyModel loginBody) {
         return given(baseRequestSpec)
                 .body(loginBody)
@@ -52,7 +50,7 @@ public class AuthApiClient {
                 .path("access");
     }
 
-    @Step("Отправка запроса на авторизацию /auth/token/ с невалидными данными")
+    @Step("[API] Отправка запроса на авторизацию /auth/token/ с невалидными данными")
     public WrongCredentialsLoginResponseModel loginWrongCredentials(LoginBodyModel loginBody) {
         return given(baseRequestSpec)
                 .body(loginBody)
@@ -64,7 +62,7 @@ public class AuthApiClient {
                 .as(WrongCredentialsLoginResponseModel.class);
     }
 
-    @Step("Отправка запроса на авторизацию /auth/token/ без заполненного username")
+    @Step("[API] Отправка запроса на авторизацию /auth/token/ без заполненного username")
     public EmptyUsernameResponseModel loginWithEmptyUsername(LoginBodyModel loginBody) {
         return given(baseRequestSpec)
                 .body(loginBody)
@@ -75,7 +73,7 @@ public class AuthApiClient {
                 .extract().as(EmptyUsernameResponseModel.class);
     }
 
-    @Step("Отправка запроса на авторизацию /auth/token/ без заполненного password")
+    @Step("[API] Отправка запроса на авторизацию /auth/token/ без заполненного password")
     public EmptyPasswordResponseModel loginWithEmptyPassword(LoginBodyModel loginBody) {
         return given(baseRequestSpec)
                 .body(loginBody)
@@ -86,7 +84,7 @@ public class AuthApiClient {
                 .extract().as(EmptyPasswordResponseModel.class);
     }
 
-    @Step("Отправка запроса на авторизацию /auth/token/ без заполненных username и password")
+    @Step("[API] Отправка запроса на авторизацию /auth/token/ без заполненных username и password")
     public EmptyUserAndPasswordResponseModel loginWithEmptyUsernameAndPassword(LoginBodyModel loginBody) {
         return given(baseRequestSpec)
                 .body(loginBody)
@@ -97,7 +95,7 @@ public class AuthApiClient {
                 .extract().as(EmptyUserAndPasswordResponseModel.class);
     }
 
-    @Step("Отправка запроса на выход из системы /auth/logout/")
+    @Step("[API] Отправка запроса на выход из системы /auth/logout/")
     public SuccessfulLogoutResponseModel logout(LogoutBodyModel logoutBody) {
         return given(baseRequestSpec)
                 .body(logoutBody)
@@ -109,7 +107,7 @@ public class AuthApiClient {
                 .as(SuccessfulLogoutResponseModel.class);
     }
 
-    @Step("Отправка запроса на выход из системы /auth/logout/ с невалидным токеном")
+    @Step("[API] Отправка запроса на выход из системы /auth/logout/ с невалидным токеном")
     public InvalidTokenLogoutResponseModel logoutInvalidToken(LogoutBodyModel logoutBody) {
         return given(baseRequestSpec)
                 .body(logoutBody)
@@ -120,7 +118,7 @@ public class AuthApiClient {
                 .extract().as(InvalidTokenLogoutResponseModel.class);
     }
 
-    @Step("Отправка запроса на выход из системы /auth/logout/ с пустым токеном")
+    @Step("[API] Отправка запроса на выход из системы /auth/logout/ с пустым токеном")
     public EmptyTokenLogoutResponseModel logoutEmptyToken(LogoutBodyModel logoutBody) {
         return given(baseRequestSpec)
                 .body(logoutBody)
@@ -131,7 +129,7 @@ public class AuthApiClient {
                 .extract().as(EmptyTokenLogoutResponseModel.class);
     }
 
-    @Step("Отправка запроса на выход из системы /auth/logout/ с уже использованным токеном")
+    @Step("[API] Отправка запроса на выход из системы /auth/logout/ с уже использованным токеном")
     public InvalidTokenLogoutResponseModel logoutBlacklistedToken(LogoutBodyModel logoutBody) {
         return given(baseRequestSpec)
                 .body(logoutBody)

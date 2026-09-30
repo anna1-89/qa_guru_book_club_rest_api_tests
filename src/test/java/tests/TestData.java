@@ -6,6 +6,7 @@ public class TestData {
     public static final String LOGIN_PASSWORD = "qaguru123";
     public static final String LOGIN_WRONG_USERNAME = "qaguru123456";
     public static final String LOGIN_WRONG_PASSWORD = "123456";
+    public static final Integer NON_EXISTING_CLUB_ID = 5555555;
 
     public static final String LOGIN_TOKEN_PREFIX = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
     public static final String LOGIN_WRONG_CREDENTIALS_ERROR = "Invalid username or password.";
@@ -20,9 +21,15 @@ public class TestData {
     public static final String LOGOUT_WRONG_TOKEN_CODE_ERROR = "token_not_valid";
     public static final String LOGOUT_EMPTY_TOKEN_ERROR = "This field may not be blank.";
 
-    public static String UPDATE_USER_WRONG_CREDENTIALS_ERROR = "Authentication credentials were not provided.";
-    public static String UPDATE_USER_EXISTING_USER_ERROR = "A user with that username already exists.";
-    public static String UPDATE_USER_BLANK_FIELD_ERROR = "This field may not be blank.";
+    public static final String UPDATE_USER_WRONG_CREDENTIALS_ERROR = "Authentication credentials were not provided.";
+    public static final String UPDATE_USER_EXISTING_USER_ERROR = "A user with that username already exists.";
+    public static final String UPDATE_USER_BLANK_FIELD_ERROR = "This field may not be blank.";
+
+    public static final String CREATE_CLUB_WRONG_CREDENTIALS_ERROR = "Authentication credentials were not provided.";
+    public static final String CREATE_CLUB_BLANK_FIELDS_ERROR = "This field may not be blank.";
+    public static final String CREATE_CLUB_BLANK_PUBLICATION_FIELD_ERROR = "This field may not be null.";
+    public static final String NON_EXISTING_CLUB_ERROR = "No Club matches the given query.";
+    public static final String UPDATE_CLUB_BLANK_FIELDS_ERROR = "This field may not be blank.";
 
 
     public static final String REGISTRATION_IP_REGEXP =
