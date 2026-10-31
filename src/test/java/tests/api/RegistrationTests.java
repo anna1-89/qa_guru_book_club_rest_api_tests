@@ -1,10 +1,11 @@
-package tests;
+package tests.api;
 
 import models.registration.*;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import tests.TestBase;
 
 import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,7 +20,7 @@ public class RegistrationTests extends TestBase {
     public void prepareTestData() {
         Faker faker = new Faker();
         username = faker.name().firstName() + System.currentTimeMillis();
-        password = faker.name().firstName();
+        password = "12345";
     }
 
     @Test

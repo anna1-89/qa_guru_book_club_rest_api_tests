@@ -2,12 +2,10 @@ package api;
 
 import io.qameta.allure.Step;
 import models.clubs.*;
-import models.login.LoginBodyModel;
 
 import static io.restassured.RestAssured.given;
 import static specs.BaseSpec.baseRequestSpec;
 import static specs.clubs.ClubsSpec.*;
-import static specs.login.LoginSpec.successfulLoginResponseSpec;
 
 public class ClubsApiClient {
 

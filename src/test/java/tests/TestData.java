@@ -31,6 +31,11 @@ public class TestData {
     public static final String NON_EXISTING_CLUB_ERROR = "No Club matches the given query.";
     public static final String UPDATE_CLUB_BLANK_FIELDS_ERROR = "This field may not be blank.";
 
+    public static final String REVIEW_WRONG_CREDENTIALS_ERROR = "Authentication credentials were not provided.";
+    public static final String REVIEW_BLANK_FIELDS_ERROR = "This field may not be blank.";
+    public static final String REVIEW_NULL_FIELDS_ERROR = "This field may not be null.";
+    public static final String NO_OWNER_ERROR = "You do not have permission to perform this action.";
+
 
     public static final String REGISTRATION_IP_REGEXP =
             "^((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.){3}"

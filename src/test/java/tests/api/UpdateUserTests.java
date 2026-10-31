@@ -1,4 +1,4 @@
-package tests;
+package tests.api;
 
 import models.login.LoginBodyModel;
 import models.registration.RegistrationBodyModel;
@@ -8,12 +8,13 @@ import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import tests.TestBase;
 
 import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
 import static tests.TestData.*;
 
-public class UpdateUserTests extends TestBase{
+public class UpdateUserTests extends TestBase {
     String username;
     String password;
     String newUsername;

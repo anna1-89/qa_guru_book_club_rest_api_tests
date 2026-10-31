@@ -26,6 +26,8 @@ allure {
 
 dependencies {
     testImplementation(
+            "com.codeborne:selenide:7.0.4",
+            "io.qameta.allure:allure-selenide:2.33.0",
             "io.rest-assured:rest-assured:6.0.0",
             "io.qameta.allure:allure-rest-assured:2.32.0",
             "io.rest-assured:json-schema-validator:6.0.0",
