@@ -1,14 +1,10 @@
 package tests.api;
 
-import models.clubs.ClubModel;
 import models.clubs.CreateClubBodyModel;
-import models.clubs.CreateClubWithBlankFieldsResponseModel;
 import models.login.LoginBodyModel;
 import models.registration.RegistrationBodyModel;
 import models.registration.SuccessfulRegistrationResponseModel;
 import models.reviews.*;
-import net.datafaker.Faker;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -284,6 +280,73 @@ public class ReviewTests extends TestBase {
         step("Проверка ответа (403, текст с ошибкой)", () -> {
             String expectedError = NO_OWNER_ERROR;
             String actualError = updatedReview.detail();
+        });
+    }
+
+    @Test
+    @DisplayName("[API] Удаление review")
+    public void successfulDeleteReview() {
+        LoginBodyModel loginData = new LoginBodyModel(LOGIN_USERNAME, LOGIN_PASSWORD);
+        String accessToken = api.auth.loginAndGetAccessToken(loginData);
+
+        CreateClubBodyModel createClubBody = new CreateClubBodyModel(
+                "API Club QA" + faker.book().title(),
+                faker.book().author(),
+                faker.number().numberBetween(2010,2026),
+                faker.lorem().sentence(),
+                "https://t.me/qa_guru_" + faker.internet().uuid()
+        );
+
+        Integer createdClubId = api.clubs.createClubAndGetId(accessToken, createClubBody);
+
+        ReviewBodyModel reviewBody = new ReviewBodyModel(
+                createdClubId,
+                faker.lorem().sentence(),
+                faker.number().numberBetween(1, 5),
+                faker.number().numberBetween(1, 200)
+        );
+        Integer createdReviewId = api.reviews.createReviewAndGetId(accessToken,reviewBody);
+
+        api.reviews.deleteReview(accessToken, createdReviewId);
+    }
+
+    @Test
+    @DisplayName("[API] Удаление не своего review")
+    public void notOwnerDeleteReview() {
+        LoginBodyModel loginData = new LoginBodyModel(LOGIN_USERNAME, LOGIN_PASSWORD);
+        String accessToken = api.auth.loginAndGetAccessToken(loginData);
+
+        CreateClubBodyModel createClubBody = new CreateClubBodyModel(
+                "API Club QA" + faker.book().title(),
+                faker.book().author(),
+                faker.number().numberBetween(2010,2026),
+                faker.lorem().sentence(),
+                "https://t.me/qa_guru_" + faker.internet().uuid()
+        );
+
+        Integer createdClubId = api.clubs.createClubAndGetId(accessToken, createClubBody);
+
+        ReviewBodyModel reviewBody = new ReviewBodyModel(
+                createdClubId,
+                faker.lorem().sentence(),
+                faker.number().numberBetween(1, 5),
+                faker.number().numberBetween(1, 200)
+        );
+        Integer createdReviewId = api.reviews.createReviewAndGetId(accessToken,reviewBody);
+
+        RegistrationBodyModel registrationData = new RegistrationBodyModel(
+                faker.name().firstName() + System.currentTimeMillis(),
+                "1234");
+        SuccessfulRegistrationResponseModel registrationResponse = api.users.register(registrationData);
+
+        LoginBodyModel loginAnotherData = new LoginBodyModel(registrationData.username(), registrationData.password());
+        String accessAnotherToken = api.auth.loginAndGetAccessToken(loginAnotherData);
+
+        NotOwnerResponseModel deletedReview = api.reviews.deleteNotOwnerReview(accessAnotherToken, createdReviewId);
+
+        step("Проверка ответа (403, текст с ошибкой)", () -> {
+            String expectedError = NO_OWNER_ERROR;
+            String actualError = deletedReview.detail();
         });
     }
 

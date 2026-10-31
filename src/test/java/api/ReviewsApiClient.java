@@ -124,4 +124,16 @@ public class ReviewsApiClient {
                 .spec(successfulDeleteReviewResponseSpec);
     }
 
+    @Step("[API] Отправка запроса на обновление review PUT /clubs/reviews/{id}/")
+    public NotOwnerResponseModel deleteNotOwnerReview(String accessToken, int reviewId) {
+        return given(baseRequestSpec)
+                .header("Authorization", "Bearer " + accessToken)
+                .pathParam("id", reviewId)
+                .when()
+                .delete("/clubs/reviews/{id}/")
+                .then()
+                .extract()
+                .as(NotOwnerResponseModel.class);
+    }
+
 }
