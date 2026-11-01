@@ -2,12 +2,16 @@ package tests;
 
 import api.ApiClient;
 import com.codeborne.selenide.Configuration;
+import helpers.Attach;
 import io.restassured.RestAssured;
 import net.datafaker.Faker;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import pages.ClubPage;
 import pages.CreateClubPage;
 import pages.MainPage;
+
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class TestBase {
 
@@ -25,5 +29,14 @@ public class TestBase {
 
         Configuration.baseUrl = "https://book-club.qa.guru";
         Configuration.browserSize = "1920x1080";
+    }
+
+    @AfterEach
+    void afterEach() {
+        Attach.screenshotAs("Last screenshot");
+        Attach.pageSource();
+        Attach.browserConsoleLogs();
+        Attach.addVideo();
+        closeWebDriver();
     }
 }
