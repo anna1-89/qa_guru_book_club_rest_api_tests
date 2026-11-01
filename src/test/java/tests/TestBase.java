@@ -5,11 +5,18 @@ import com.codeborne.selenide.Configuration;
 import io.restassured.RestAssured;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
+import pages.ClubPage;
+import pages.CreateClubPage;
+import pages.MainPage;
 
 public class TestBase {
 
     protected static final ApiClient api = new ApiClient();
     protected static final Faker faker = new Faker();
+
+    public MainPage mainPage = new MainPage();
+    public CreateClubPage createClubPage = new CreateClubPage();
+    public ClubPage clubPage = new ClubPage();
 
     @BeforeAll
     public static void setUp() {

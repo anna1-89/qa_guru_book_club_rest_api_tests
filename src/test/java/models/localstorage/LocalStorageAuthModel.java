@@ -1,19 +1,23 @@
 package models.localstorage;
 
-public record LocalStorageAuthModel (BookClubAuth book_club_auth) {
-    public record BookClubAuth(
-            User user,
-            String accessToken,
-            String refreshToken,
-            boolean isAuthenticated
-    ) {}
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import models.registration.SuccessfulRegistrationResponseModel;
 
-    public record User(
-            Integer id,
-            String username,
-            String firstName,
-            String lastName,
-            String email,
-            String remoteAddr
-    ) {}
+public record LocalStorageAuthModel (
+        SuccessfulRegistrationResponseModel user,
+        String accessToken,
+        String refreshToken,
+        boolean isAuthenticated
+) {
+    private static final JsonMapper JSON = JsonMapper.builder().build();
+
+    public String toJson() {
+        try {
+            return JSON.writeValueAsString(this);
+        } catch (JacksonException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+

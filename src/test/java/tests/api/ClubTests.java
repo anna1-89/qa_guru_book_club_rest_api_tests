@@ -2,19 +2,13 @@ package tests.api;
 
 import io.qameta.allure.Feature;
 import models.clubs.*;
-import models.localstorage.LocalStorageAuthModel;
 import models.login.LoginBodyModel;
-import models.registration.RegistrationBodyModel;
-import models.registration.SuccessfulRegistrationResponseModel;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 import static org.assertj.core.api.Assertions.assertThat;
 import static tests.TestData.*;
@@ -46,69 +40,6 @@ import static tests.TestData.*;
             description = faker.lorem().sentence();
             telegramChatLink = "https://t.me/qa_guru_" + faker.internet().uuid();
         }
-
-        @Test
-        @DisplayName("[API+ UI] Невозможность выхода из клуба его создателю")
-        public void cantLeaveClubAsOwnerTest(){
-            RegistrationBodyModel registrationData = new RegistrationBodyModel(username, password);
-            SuccessfulRegistrationResponseModel registrationResponse = api.users.register(registrationData);
-
-            LoginBodyModel loginData = new LoginBodyModel(username, password);
-            String accessToken = api.auth.loginAndGetAccessToken(loginData);
-            String refreshToken = api.auth.loginAndGetRefreshToken(loginData);
-
-            // todo move to model
-            String localStorageAuthBody = """
-                {
-                  "user": {
-                    "id": %d,
-                    "username": "%s",
-                    "firstName": "%s",
-                    "lastName": "%s",
-                    "email": "%s",
-                    "remoteAddr": "%s"
-                  },
-                  "accessToken": "%s",
-                  "refreshToken": "%s",
-                  "isAuthenticated": true
-                }
-                """.formatted(
-                    registrationResponse.id(),
-                    registrationResponse.username(),
-                    registrationResponse.firstName(),
-                    registrationResponse.lastName(),
-                    registrationResponse.email(),
-                    registrationResponse.remoteAddr(),
-                    accessToken,
-                    refreshToken
-            );
-
-            // create club
-            CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                    bookTitle,
-                    bookAuthors,
-                    publicationYear,
-                    description,
-                    telegramChatLink
-            );
-
-            ClubModel createdClub = api.clubs.createClub(accessToken, createClubBody);
-            String clubId = createdClub.id().toString();
-
-            // open club
-            open("/favicon.ico");
-            localStorage().setItem("book_club_auth", localStorageAuthBody);
-            open("/clubs/" + clubId);
-
-            // cant leave club as owner
-            $(".club-content").shouldBe(visible);
-            $(".leave-btn").click();
-            confirm();
-            $(".error").shouldHave(text("Не удалось покинуть клуб"));
-        }
-
-
-//      ------------------------------------API TESTS-------------------------------------------
 
         @Test
         @DisplayName("[API] Создание клуба")
