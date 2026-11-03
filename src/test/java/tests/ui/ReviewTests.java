@@ -12,7 +12,6 @@ import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import tests.TestBase;
 
 import static com.codeborne.selenide.Selenide.localStorage;
 import static com.codeborne.selenide.Selenide.open;
@@ -39,7 +38,7 @@ public class ReviewTests extends TestBase {
         username = faker.name().firstName() + System.currentTimeMillis();
         password = "12345";
 
-        bookTitle = "API Club QA" + faker.book().title();
+        bookTitle = "API Club QA Test" + faker.book().title();
         bookAuthors = faker.book().author();
         publicationYear = 2020;
         description = faker.lorem().sentence();

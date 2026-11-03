@@ -1,4 +1,4 @@
-package tests;
+package tests.ui;
 
 import api.ApiClient;
 import com.codeborne.selenide.Configuration;
@@ -32,7 +32,6 @@ public class TestBase {
 
     @BeforeAll
     public static void setUp() {
-        //RestAssured.baseURI = "https://book-club.qa.guru";
         RestAssured.basePath = "/api/v1";
 
         //Configuration.baseUrl = "https://book-club.qa.guru";
