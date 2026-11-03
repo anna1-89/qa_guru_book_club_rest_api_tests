@@ -33,7 +33,7 @@ import static tests.TestData.*;
             password = "12345";
 
             bookTitle = faker.book().title() + System.currentTimeMillis();
-            newBookTitle = "API Club " + faker.book().title();
+            newBookTitle = faker.book().title() + System.currentTimeMillis();
             bookAuthors = faker.book().author();
             publicationYear = 2020;
             description = faker.lorem().sentence();

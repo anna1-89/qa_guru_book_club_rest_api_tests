@@ -32,7 +32,7 @@ public class ClubTests extends TestBase {
         username = faker.name().firstName() + System.currentTimeMillis();
         password = "12345";
 
-        bookTitle = "API Club Qa Test AP" + faker.book().title();
+        bookTitle = faker.book().title() + System.currentTimeMillis();
         bookAuthors = faker.book().author();
         publicationYear = 2020;
         description = faker.lorem().sentence();
