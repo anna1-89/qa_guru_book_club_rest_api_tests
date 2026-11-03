@@ -31,23 +31,13 @@ public class TestBase {
     public ClubPage clubPage = new ClubPage();
 
     @BeforeAll
-    public static void setUp() {
-        //RestAssured.baseURI = "https://book-club.qa.guru";
-        RestAssured.basePath = "/api/v1";
-
-        //Configuration.baseUrl = "https://book-club.qa.guru";
-        //Configuration.browserSize = "1920x1080";
-
-        RestAssured.baseURI = System.getProperty("baseUrl", "https://book-club.qa.guru");;
-
-        Configuration.baseUrl = System.getProperty("baseUrl", "https://book-club.qa.guru");
-        Configuration.browser = System.getProperty("browser", "chrome");
-        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
-        Configuration.browserVersion = System.getProperty("browserVersion", "156.0");
-        Configuration.headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
-
-        Configuration.remote = System.getProperty("remoteURL","https://user1:1234@selenoid.qa.guru/wd/hub");
-
+    static void setUp() {
+        Configuration.browser=System.getProperty("browser","chrome");
+        Configuration.browserVersion=System.getProperty("browserVersion","156.0");
+        Configuration.browserSize = System.getProperty("browserSize","1920x1080");
+        Configuration.headless= Boolean.parseBoolean(System.getProperty("headless","false"));
+        Configuration.holdBrowserOpen = false;
+        Configuration.baseUrl = System.getProperty("baseUrl","https://book-club.qa.guru");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments(List.of("--disable-dev-shm-usage", "--no-sandbox"));
@@ -57,6 +47,21 @@ public class TestBase {
                 "enableVideo", true
         ));
         Configuration.browserCapabilities = capabilities;
+        Configuration.remote = System.getProperty("remoteURL","https://user1:1234@selenoid.qa.guru/wd/hub");
+
+        RestAssured.baseURI = System.getProperty("baseUrl","https://book-club.qa.guru");
+
+    }
+
+
+    @AfterEach
+    void tearDown() {
+        Attach.screenshotAs("Last screenshot");
+        Attach.pageSource();
+        Attach.attachAsText("Some file", "Some content");
+        Attach.browserConsoleLogs();
+        Attach.addVideo();
+        closeWebDriver();
     }
 
     @BeforeEach
@@ -64,12 +69,5 @@ public class TestBase {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
-    @AfterEach
-    void afterEach() {
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
-        closeWebDriver();
-    }
+
 }
