@@ -38,18 +38,15 @@ public class TestBase {
         //Configuration.baseUrl = "https://book-club.qa.guru";
         //Configuration.browserSize = "1920x1080";
 
-        RestAssured.baseURI = System.getProperty("base_URI", "https://book-club.qa.guru/");;
+        RestAssured.baseURI = System.getProperty("baseUrl", "https://book-club.qa.guru/");;
 
         Configuration.baseUrl = System.getProperty("url", "https://book-club.qa.guru");
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
-        Configuration.browserVersion = System.getProperty("browserVersion", "148.0");
+        Configuration.browserVersion = System.getProperty("browserVersion", "156.0");
         Configuration.headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
 
-        String selenoidUrl = System.getProperty("selenoidUrl");
-        if (selenoidUrl != null && !selenoidUrl.isBlank()) {
-            Configuration.remote = selenoidUrl;
-        }
+        Configuration.remote = System.getProperty("remoteURL","https://user1:1234@selenoid.qa.guru/wd/hub");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions chromeOptions = new ChromeOptions();
