@@ -32,7 +32,7 @@ import static tests.TestData.*;
             username = faker.name().firstName() + System.currentTimeMillis();
             password = "12345";
 
-            bookTitle = "API Club QA Test AP ui" + faker.book().title();
+            bookTitle = faker.book().title() + System.currentTimeMillis();
             newBookTitle = "API Club " + faker.book().title();
             bookAuthors = faker.book().author();
             publicationYear = 2020;

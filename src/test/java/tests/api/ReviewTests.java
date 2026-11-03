@@ -21,7 +21,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API UI Club Test QA" + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
@@ -56,7 +56,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club QA" + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
@@ -88,7 +88,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club" + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
@@ -125,7 +125,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club QA" + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
@@ -162,7 +162,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club QA" + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
@@ -195,7 +195,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club " + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
@@ -242,7 +242,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club QA" + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
@@ -289,7 +289,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club QA" + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
@@ -316,7 +316,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club QA" + faker.book().title(),
+                faker.book().title() + System.currentTimeMillis(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
