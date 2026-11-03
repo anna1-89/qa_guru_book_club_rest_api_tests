@@ -38,7 +38,7 @@ public class TestBase {
         //Configuration.baseUrl = "https://book-club.qa.guru";
         //Configuration.browserSize = "1920x1080";
 
-        RestAssured.baseURI = System.getProperty("baseUrl", "https://book-club.qa.guru/");;
+        RestAssured.baseURI = System.getProperty("baseUrl", "https://book-club.qa.guru");;
 
         Configuration.baseUrl = System.getProperty("baseUrl", "https://book-club.qa.guru");
         Configuration.browser = System.getProperty("browser", "chrome");
