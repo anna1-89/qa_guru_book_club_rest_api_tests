@@ -21,7 +21,7 @@ public class ReviewTests extends TestBase {
         String accessToken = api.auth.loginAndGetAccessToken(loginData);
 
         CreateClubBodyModel createClubBody = new CreateClubBodyModel(
-                "API Club Test QA" + faker.book().title(),
+                "API UI Club Test QA" + faker.book().title(),
                 faker.book().author(),
                 faker.number().numberBetween(2010,2026),
                 faker.lorem().sentence(),
